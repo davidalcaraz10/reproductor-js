@@ -12,7 +12,7 @@ let contimg = 0;
 
 
 let userName;
-let nombresDeUsuarios;
+let nombresDeUsuarios = localStorage.getItem('userLS');
 
 
 playPause.addEventListener("click", () => {
@@ -120,31 +120,18 @@ for (const song of songsList) {
 document.getElementById('playList').innerHTML = htmlList;
 
 
-
+// Inicio de Sesión
 document.getElementById('userForm').addEventListener('submit', formAction);
 let user_welcome = document.getElementById('user_welcome');
 
 function formAction(e) {
-  e.preventDefault();
   userName = document.getElementById('inputUsuario').value;
   let userLS = localStorage.setItem('userLS', userName);
   nombresDeUsuarios = localStorage.getItem('userLS');
-  
-  if(nombresDeUsuarios == null) {
-    user_welcome.innerHTML += `<h5 class="player__title">Escuchando ahora</h5>`;
+}
+
+  if(nombresDeUsuarios == '') {
+    user_welcome.innerHTML = `<h5 class="player__title">Escuchando ahora</h5>`;
   } else {
-    user_welcome.innerHTML += `<h5 class="player__title">Hola ${nombresDeUsuarios}!</h5>`;
-    
+    user_welcome.innerHTML = `<h5 class="player__title">Hola ${nombresDeUsuarios}!</h5>`;
   }
-}
-
-function mantenerSaludo() {
-
-}
-
-console.log(nombresDeUsuarios)
-
-
-//htmlU = 
-
-//htmlU = `<h5 class="player__title>Hola ${nombresDeUsuarios}, disfruta la escucha!</h5>`;

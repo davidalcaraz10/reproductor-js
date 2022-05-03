@@ -78,7 +78,7 @@ img {
   color: #a1a1a1;
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin: 0;
+  margin: 1em;
 }
 
 .player__album {
