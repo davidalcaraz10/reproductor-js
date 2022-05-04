@@ -130,7 +130,7 @@ function formAction(e) {
   nombresDeUsuarios = localStorage.getItem('userLS');
 }
 
-  if(nombresDeUsuarios == '') {
+  if(nombresDeUsuarios == '' || nombresDeUsuarios == null) {
     user_welcome.innerHTML = `<h5 class="player__title">Escuchando ahora</h5>`;
   } else {
     user_welcome.innerHTML = `<h5 class="player__title">Hola ${nombresDeUsuarios}!</h5>`;
