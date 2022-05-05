@@ -7,14 +7,12 @@ const title = document.getElementById("title");
 const artist = document.getElementById("artist");
 const range = document.getElementById("range");
 const art = document.getElementById("art");
-let contador = 0;
-let contimg = 0;
-
-
+let currentTimeText = document.getElementById("currentTimeText");
 let userName;
 let nombresDeUsuarios = localStorage.getItem('userLS');
 
 
+// play-pause y cambio de ícono
 playPause.addEventListener("click", () => {
   if (audio.paused || audio.ended) {
     playPause.querySelector(".pause-btn").classList.toggle("hide");
@@ -27,6 +25,23 @@ playPause.addEventListener("click", () => {
   }
 });
 
+// Barra de progreso
+function update() {
+  let medidaBarra = parseInt(audio.currentTime*100/audio.duration);
+  range.value = medidaBarra;
+};
+setInterval(update,100);
+
+audio.addEventListener('timeupdate', actualizacionTiempo);
+function actualizacionTiempo() {
+  let minutosActual = parseInt(audio.currentTime / 60);
+  let segundosActual = parseInt(audio.currentTime - minutosActual * 60);
+  if (segundosActual < 10) { segundosActual = "0" + segundosActual };
+  currentTimeText.innerHTML = minutosActual + ":" + segundosActual;
+}
+
+
+// Botones de velocidad
 const speedBtn1 = document.getElementById('speedBtn1');
 speedBtn1.addEventListener('click', changeSpeed);
 function changeSpeed(e) {
@@ -40,6 +55,7 @@ function changeSpeed(e) {
 }
 
 
+// Lista de reproducción
 const songsList = [
   { image: "https://i.ibb.co/ZS3wRSh/cover.jpg",
     artist: "Disclosure",
@@ -80,7 +96,7 @@ for (const song of songsList) {
 
     <input type="range" value="0" min="0" class="player__level" id="range" />
     <div class="audio-duration">
-      <div class="start">00:00</div>
+      <div class="start" id="currentTimeText"></div>
       <div class="end">${song.length}</div>
     </div>
 
@@ -91,10 +107,16 @@ for (const song of songsList) {
   `
 };
 
-//document.getElementById('trackList').innerHTML = htmltrackList;
+
+/*
+forward.addEventListener("click", () => {
+  audio.setAttribute("src", )
+})
+*/
 
 
 
+// Imprime cada canción en la playlist
 const playList = document.getElementById('playList');
 let htmlList = ''
 for (const song of songsList) {
@@ -120,6 +142,8 @@ for (const song of songsList) {
 document.getElementById('playList').innerHTML = htmlList;
 
 
+
+
 // Inicio de Sesión
 document.getElementById('userForm').addEventListener('submit', formAction);
 let user_welcome = document.getElementById('user_welcome');
@@ -135,3 +159,13 @@ function formAction(e) {
   } else {
     user_welcome.innerHTML = `<h5 class="player__title">Hola ${nombresDeUsuarios}!</h5>`;
   }
+
+  
+  let downloadBtn = document.getElementById("downloadBtn");
+  downloadBtn.addEventListener("click", () => {
+    Toastify({
+      text: "Iniciando descarga",
+      duration: 2000
+      }).showToast();
+  })
+    

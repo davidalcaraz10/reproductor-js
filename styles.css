@@ -186,6 +186,12 @@ img {
   height: 28px;
   width: 29px;
 }
+#downloadBtn {
+  margin: 1em;
+  border: none;
+  height: 28px;
+  width: 29px;
+}
 
 .inputWidth {
   width: 100%;
