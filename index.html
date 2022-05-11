@@ -53,8 +53,7 @@
                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                   </div>
                   <div class="offcanvas-body">
-                    <div class="playList__father" id="playList">
-                    </div>
+                    <div class="playList__father" id="playList"></div>
                   </div>
                 </div>
             </div>
@@ -62,20 +61,20 @@
           
           <div id="trackList">
             <div class="player__album">
-              <img src="https://i.ibb.co/ZS3wRSh/cover.jpg" alt="Album Cover" class="player__img" loading="lazy" />
+              <img src="" id="art" alt="Album Cover" class="player__img" loading="lazy"/>
             </div>
        
-            <h2 class="player__song">Latch</h2>
-            <h3 class="player__artist">Disclosure</h3>
+            <h2 class="player__song" id="title"></h2>
+            <h3 class="player__artist" id="artist"></h3>
        
             <input type="range" value="" class="player__level" id="range"/>
             <div class="audio-duration">
               <div class="start" id="currentTimeText"></div>
-              <div class="end">02:55</div>
+              <div class="end" id="endTime"></div>
             </div>
        
             <audio class="player__audio" controls id="audio">
-              <source src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/308622/Leo%20-%20Trying.mp3" type="audio/flac">
+              <source src="" type="audio/flac">
               Tu navegador no soporta HTML5
             </audio>
           </div>
@@ -99,7 +98,7 @@
           <div class="btn__speed__d">
             <button type="button" class="btn btn-outline-secondary btn-sm player__btn" id="speedBtn1" value="1" >x1</button>
             <button type="button" class="btn btn-outline-secondary btn-sm player__btn" id="speedBtn3" value="1.3" >x1.3</button>
-            <button type="button" class="btn btn-outline-secondary btn-sm player__btn" id="downloadBtn">Ds</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm player__btn" id="downloadBtn" download>Ds</button>
           </div>
 
 

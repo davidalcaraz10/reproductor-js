@@ -1,16 +1,19 @@
 
-const audio = document.getElementById("audio");
 const playPause = document.getElementById("play");
 const backward = document.getElementById("backward");
 const forward = document.getElementById("forward");
+const trackList = document.getElementById('trackList');
+const playList = document.getElementById('playList');
+const art = document.getElementById("art");
 const title = document.getElementById("title");
 const artist = document.getElementById("artist");
 const range = document.getElementById("range");
-const art = document.getElementById("art");
 let currentTimeText = document.getElementById("currentTimeText");
+let endTime = document.getElementById("endTime");
+const audio = document.getElementById("audio");
 let userName;
 let nombresDeUsuarios = localStorage.getItem('userLS');
-
+let index;
 
 // play-pause y cambio de ícono
 playPause.addEventListener("click", () => {
@@ -56,8 +59,38 @@ function changeSpeed(e) {
 
 
 // Lista de reproducción
-const songsList = [
-  { image: "https://i.ibb.co/ZS3wRSh/cover.jpg",
+
+fetch('/playlist.json')
+  .then(response => response.json())
+  .then(playlist => {
+    let htmlList = ''
+    playlist.forEach(song => {
+      htmlList += `
+          <div class="playlist__style">
+            <div class="playlist__img">
+              <img src="${song.image}" alt="Album Cover">
+            </div>
+            <div class="playlist__text">
+              <h2 class="playlist__song">${song.song}</h2>
+              <h3 class="playlist__artist">${song.artist}</h3>
+            </div>
+            <div>
+              <p class="trackMinutes">${song.length}</p>
+            </div>
+            <audio>
+              <source src="${song.file}" type="audio/mpeg">
+              Tu navegador no soporta HTML5
+            </audio>
+          </div>
+      `
+    })
+    playList.innerHTML = htmlList;
+  });
+
+
+// Siguiente canción
+const arrayCanciones = [
+{   image: "https://i.ibb.co/ZS3wRSh/cover.jpg",
     artist: "Disclosure",
     song: "Latch",
     length: "02:55",
@@ -81,66 +114,47 @@ const songsList = [
     length: "06:09",
     file: "./audio/KeithJarrett_MySong.flac"
   }
-];
+]
 
-const trackList = document.getElementById('trackList');
-let htmltrackList = '';
-for (const song of songsList) {
-  htmltrackList +=`
-    <div class="player__album">
-      <img src="${song.image}" alt="Album Cover" class="player__img" id="art" loading="lazy"/>
-    </div>
+const setTrack = (arrayIndex) => {
+  let {image, artist, song, length, file} = arrayCanciones [arrayIndex];
+  art.src = image;
+  artist.innerHTML = artist;
+  title.innerHTML = song;
+  endTime.innerHTML = length;
+  audio.src = file;
+};
 
-    <h2 class="player__song" id="title">${song.song}</h2>
-    <h3 class="player__artist" id="artist">${song.artist}</h3>
+const nextSong = () => {
+  if (index == arrayCanciones.length - 1){
+    index = 0;
+  } else {
+    index += 1;
+  }
+  setTrack(index);
+  audio.play();
+};
 
-    <input type="range" value="0" min="0" class="player__level" id="range" />
-    <div class="audio-duration">
-      <div class="start" id="currentTimeText"></div>
-      <div class="end">${song.length}</div>
-    </div>
+forward.addEventListener("click", nextSong);
 
-    <audio class="player__audio" controls id="audio">
-    <source src="${song.file}" type="audio/mpeg">
-    Tu navegador no soporta HTML5
-    </audio>
-  `
+window.onload= () => {
+  index = 0;
+  setTrack(index);
 };
 
 
-/*
-forward.addEventListener("click", () => {
-  audio.setAttribute("src", )
-})
-*/
-
-
-
-// Imprime cada canción en la playlist
-const playList = document.getElementById('playList');
-let htmlList = ''
-for (const song of songsList) {
-  htmlList +=`
-    <div class="playlist__style" id="playList">
-      <div class="playlist__img">
-        <img src="${song.image}" alt="Album Cover">
-      </div>
-      <div class="playlist__text">
-        <h2 class="playlist__song">${song.song}</h2>
-        <h3 class="playlist__artist">${song.artist}</h3>
-      </div>
-      <div>
-        <p class="trackMinutes">${song.length}</p>
-      </div>
-      <audio>
-        <source src="${song.file}" type="audio/mpeg">
-        Tu navegador no soporta HTML5
-      </audio>
-    </div>
-    `
+// Canción anterior
+const prevSong = () => {
+  if (index > 0 ) {
+    index -= 1;
+  } else {
+      index = arrayCanciones.length -1;
+  }
+  setTrack(index);
+  audio.play();
 };
-document.getElementById('playList').innerHTML = htmlList;
 
+backward.addEventListener("click", prevSong);
 
 
 
@@ -160,7 +174,8 @@ function formAction(e) {
     user_welcome.innerHTML = `<h5 class="player__title">Hola ${nombresDeUsuarios}!</h5>`;
   }
 
-  
+
+// Botón descargar (sin funcionalidad)
   let downloadBtn = document.getElementById("downloadBtn");
   downloadBtn.addEventListener("click", () => {
     Toastify({
