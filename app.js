@@ -6,7 +6,7 @@ const trackList = document.getElementById('trackList');
 const playList = document.getElementById('playList');
 const art = document.getElementById("art");
 const title = document.getElementById("title");
-const artist = document.getElementById("artist");
+const artistHTML = document.getElementById("artist");
 const range = document.getElementById("range");
 let currentTimeText = document.getElementById("currentTimeText");
 let endTime = document.getElementById("endTime");
@@ -87,6 +87,8 @@ fetch('/playlist.json')
     playList.innerHTML = htmlList;
   });
 
+  
+
 
 // Siguiente canción
 const arrayCanciones = [
@@ -96,7 +98,7 @@ const arrayCanciones = [
     length: "02:55",
     file: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/308622/Leo%20-%20Trying.mp3"
   },
-  { image: "https://i.pinimg.com/564x/9d/d4/78/9dd47873eb944d93d7f764cd72d26cae.jpg",
+  { image: "https://m.media-amazon.com/images/I/71mTvkvdzNL._AC_SL1500_.jpg",
     artist: "Doja Cat",
     song: "Say So",
     length: "03:57",
@@ -119,7 +121,7 @@ const arrayCanciones = [
 const setTrack = (arrayIndex) => {
   let {image, artist, song, length, file} = arrayCanciones [arrayIndex];
   art.src = image;
-  artist.innerHTML = artist;
+  artistHTML.innerHTML = artist;
   title.innerHTML = song;
   endTime.innerHTML = length;
   audio.src = file;
