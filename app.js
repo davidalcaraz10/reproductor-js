@@ -64,11 +64,12 @@ fetch('/playlist.json')
   .then(response => response.json())
   .then(playlist => {
     let htmlList = ''
+    let idx = 0;
     playlist.forEach(song => {
       htmlList += `
-          <div class="playlist__style">
+          <div class="playlist__style" id="${idx}">
             <div class="playlist__img">
-              <img src="${song.image}" alt="Album Cover">
+              <img src="${song.image}" alt="Album Cover" >
             </div>
             <div class="playlist__text">
               <h2 class="playlist__song">${song.song}</h2>
@@ -82,9 +83,18 @@ fetch('/playlist.json')
               Tu navegador no soporta HTML5
             </audio>
           </div>
-      `
+      `;
+      idx++
     })
     playList.innerHTML = htmlList;
+    
+    for(let i=0; i <= arrayCanciones.length; i++) {
+        const el = document.getElementById(i);
+        el.addEventListener("click", () => {
+          setTrack(i)
+          
+        });
+      }
   });
 
   
@@ -184,5 +194,4 @@ function formAction(e) {
       text: "Iniciando descarga",
       duration: 2000
       }).showToast();
-  })
-    
+  })  
