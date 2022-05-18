@@ -60,7 +60,7 @@ function changeSpeed(e) {
 
 // Lista de reproducción
 
-fetch('/playlist.json')
+fetch('./playlist.json')
   .then(response => response.json())
   .then(playlist => {
     let htmlList = ''
@@ -92,7 +92,7 @@ fetch('/playlist.json')
         const el = document.getElementById(i);
         el.addEventListener("click", () => {
           setTrack(i)
-          
+          audio.play();
         });
       }
   });
